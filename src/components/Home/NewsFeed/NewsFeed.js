@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { InstaContext } from '../../../context/InstaContext';
 import Feed from './Feed';
 
-function NewsFeed() {
+const NewsFeed = () => {
+	const { user } = useContext(InstaContext);
+	const { name, email, image } = user;
+	console.log(user);
 	return (
 		<div>
+			{email}
+			<h1>{name}</h1>
+			<img src={image} alt="" />
 			<Feed />
 			<Feed />
 			<Feed />
 		</div>
 	);
-}
+};
 
 export default NewsFeed;

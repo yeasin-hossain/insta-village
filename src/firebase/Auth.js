@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import firebaseConfig from './firebase.config';
+import dummyProfile from '../Images/dummyProfile.jpg';
 
 export const initializeFirebase = () => {
 	if (firebase.apps.length === 0) {
@@ -10,29 +11,36 @@ export const initializeFirebase = () => {
 };
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+const userInfo = (info) => {
+	const { displayName, email, photoURL, uid, emailVerified } = info?.user;
+	const UserInfo = {
+		isLoggedIn: true,
+		name: displayName,
+		email: email,
+		image: photoURL || dummyProfile,
+		uuid: uid,
+		emailVerified: emailVerified,
+	};
+	return UserInfo;
+};
+
 export const googleSignIn = () => {
 	return firebase
 		.auth()
 		.signInWithPopup(googleProvider)
-		.then(function (result) {
-			const { displayName, email } = result.user;
-			const loggedInUser = {
-				isLoggedIn: true,
-				name: displayName,
-				email: email,
-			};
-			return loggedInUser;
-		});
+		.then((result) => userInfo(result));
 };
 
 export const signUpForm = (email, password, displayName) => {
 	return firebase
 		.auth()
 		.createUserWithEmailAndPassword(email, password)
-		.then((res) => {
+		.then(() => {
 			updateUserName(displayName);
-			return res;
-		});
+			return true;
+		})
+		.catch((err) => err.message);
 };
 
 const updateUserName = (name) => {
@@ -46,15 +54,7 @@ export const SignInPassAndMail = (email, password) => {
 	return firebase
 		.auth()
 		.signInWithEmailAndPassword(email, password)
-		.then((res) => {
-			const { displayName, email } = res.user;
-			const loggedInUser = {
-				isLoggedIn: true,
-				name: displayName,
-				email: email,
-			};
-			return loggedInUser;
-		});
+		.then((res) => userInfo(res));
 };
 
 // Logout function

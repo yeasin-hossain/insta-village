@@ -5,20 +5,22 @@ import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 import { Button } from 'react-bootstrap';
 import SecureRoute from './components/Routes/SecureRoute';
-import { LogOut } from './firebase/Auth';
+import { initializeFirebase, LogOut } from './firebase/Auth';
 
 function App() {
 	const { LoggedIn, setLoggedIn, setUser } = useContext(InstaContext);
+
+	initializeFirebase();
 
 	const logOutBtn = () => {
 		LogOut().then((e) => {
 			if (e) {
 				setLoggedIn(false);
-				console.log(LoggedIn);
 				setUser({});
 			}
 		});
 	};
+
 	return (
 		<div className="App">
 			<Router>

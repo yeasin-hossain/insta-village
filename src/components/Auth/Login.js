@@ -21,12 +21,16 @@ function Login() {
 	const googleLogin = () => {
 		googleSignIn().then((res) => {
 			setLoggedIn(true);
+			console.log(res);
+			setUser(res);
 			history.push('/');
 		});
 	};
 
 	const signUpWithForm = (email, password, displayName) => {
-		signUpForm(email, password, displayName).then((res) => setUser(res));
+		signUpForm(email, password, displayName).then((res) => {
+			res === 'true' ? setOldUser(true) : console.log(res);
+		});
 	};
 
 	const SignInWithForm = (email, password) => {
