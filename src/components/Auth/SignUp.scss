@@ -1,0 +1,11 @@
+@mixin center {
+    display: block;
+    margin: auto
+}
+.form{
+    @include center();
+    width: 300px;
+}
+.form form{
+    width: 100%;
+}
