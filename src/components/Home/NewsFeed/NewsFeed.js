@@ -5,7 +5,6 @@ import Feed from './Feed';
 const NewsFeed = () => {
 	const { user } = useContext(InstaContext);
 	const { name, email, image } = user;
-	console.log(user);
 	return (
 		<div>
 			{email}
